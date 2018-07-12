@@ -13,58 +13,39 @@
     <div class="banner">
         <ul class="ul clearfix">
             <li>
-                <a href="javascript:;">
                     <img src="./images/l1.jpg">
-                </a>
             </li>
             <li>
-                <a href="javascript:;">
                     <img src="./images/l2.jpg">
-                </a>
             </li>
             <li>
-                <a href="javascript:;">
                     <img src="./images/l3.jpg">
-                </a>
             </li>
             <li>
-                <a href="javascript:;">
                     <img src="./images/l4.jpg">
-                </a>
             </li>
             <li>
-                <a href="javascript:;">
                     <img src="./images/l5.jpg">
-                </a>
             </li>
             <li>
-                <a href="javascript:;">
                     <img src="./images/l6.jpg">
-                </a>
             </li>
             <li>
-                <a href="javascript:;">
                     <img src="./images/l7.jpg">
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <img src="./images/l8.jpg">
-                </a>
             </li>
         </ul>
-        <ul class="page">
-            <li class="active"></li>
+        <ol class="page">
+            <!-- <li class="active"></li>
             <li></li>
             <li></li>
             <li></li>
             <li></li>
             <li></li>
-            <li></li>
-            <li></li>
-        </ul>
+            <li></li> -->
+        </ol>
     </div>
     <script>
+        CC();
         window.onload = function () {
             IMG();
         };
@@ -177,6 +158,17 @@
             }
             pages[index - 1].classList.add("active");
         };
+
+        function CC() {
+            var images = document.querySelectorAll(".ul img");
+            var page = document.querySelector('.page');
+            var lis= '';
+            for (var i = 0; i < images.length; i++) {
+                lis += '<li></li>';
+            }
+            page.innerHTML = lis;
+            
+        }
     </script>
 </body>
 

@@ -19,14 +19,11 @@
 }
 .banner .ul {
   list-style: none;
-  width: 800%;
   position: relative;
 }
 .banner .ul li {
-  width: 12.5%;
   float: left;
 }
-.banner .ul a,
 .banner .ul img {
   width: 100%;
   display: block;
@@ -49,5 +46,5 @@
 }
 .banner .page .active {
   background-color: #fff;
-  transform: scale(1.2);
+  transform: scale(1.8);
 }
