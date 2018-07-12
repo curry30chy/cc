@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/index.css">
+    <title>轮播图</title>
+</head>
+
+<body>
+    <div class="banner">
+        <ul class="ul clearfix">
+            <li>
+                <a href="javascript:;">
+                    <img src="./images/l1.jpg">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <img src="./images/l2.jpg">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <img src="./images/l3.jpg">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <img src="./images/l4.jpg">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <img src="./images/l5.jpg">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <img src="./images/l6.jpg">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <img src="./images/l7.jpg">
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <img src="./images/l8.jpg">
+                </a>
+            </li>
+        </ul>
+        <ul class="page">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script>
+        window.onload = function () {
+            IMG();
+        };
+
+        function IMG() {
+            var banner = document.querySelector('.banner');
+            var ul = document.querySelector('.ul');
+            var first = document.querySelector('.ul>li:first-child').cloneNode(true);
+            var last = document.querySelector('.ul>li:last-child').cloneNode(true);
+
+            ul.insertBefore(last, ul.firstChild);
+            ul.appendChild(first);
+
+            var lis = document.querySelectorAll('.ul>li');
+
+            ul.style.width = lis.length * banner.offsetWidth + "px";
+            for (var i = 0; i < lis.length; i++) {
+                lis[i].style.width = banner.offsetWidth + "px";
+            };
+            ul.style.left = -banner.offsetWidth + "px";
+
+            window.onresize = function () {
+                var lis = document.querySelectorAll('.ul>li');
+                ul.style.width = lis.length * banner.offsetWidth + "px";
+                for (var i = 0; i < lis.length; i++) {
+                    lis[i].style.width = banner.offsetWidth + "px";
+                };
+                ul.style.left = -banner.offsetWidth + "px";
+            };
+
+            var index = 1;
+            var TIMEID;
+            MOVE();
+
+            function MOVE() {
+                TIMEID = setInterval(function () {
+                    index++;
+                    ul.style.transition = "left 0.5s ease-in-out";
+                    ul.style.left = -(index * banner.offsetWidth) + "px";
+
+                    setTimeout(() => {
+                        if (index == lis.length - 1) {
+                            index = 1;
+                            ul.style.transition = "none";
+                            ul.style.left = -(index * banner.offsetWidth) + "px";
+                        }
+                    }, 500);
+                }, 2000);
+            };
+
+
+            var startX, moveX, distanceX;
+            var flag = true;
+            ul.addEventListener('touchstart', function (e) {
+                clearInterval(TIMEID);
+                startX = e.targetTouches[0].clientX;
+            });
+
+            ul.addEventListener('touchmove', function (e) {
+                if (flag) {
+                    moveX = e.targetTouches[0].clientX;
+                    distanceX = moveX - startX;
+                    this.style.transition = "";
+                    this.style.left = (-index * banner.offsetWidth + distanceX) + "px";
+                }
+            });
+
+            ul.addEventListener('touchend', function () {
+                flag = false;
+                if (Math.abs(distanceX) > 100) {
+                    if (distanceX > 0) {
+                        index--;
+                    } else {
+                        index++;
+                    }
+                    this.style.transition = "left 0.5s ease-in-out";
+                    this.style.left = -index * banner.offsetWidth + "px";
+                } else if (Math.abs(distanceX) > 0) {
+                    this.style.transition = "left 0.5s ease-in-out";
+                    this.style.left = -index * banner.offsetWidth + "px";
+                }
+                startX = 0;
+                moveX = 0;
+                distanceX = 0;
+            });
+
+            ul.addEventListener('webkitTransitionEnd', function () {
+                if (index == lis.length - 1) {
+                    index = 1;
+                    this.style.transition = "none";
+                    this.style.left = -index * banner.offsetWidth + "px";
+                } else if (index == 0) {
+                    index = lis.length - 2;
+                    this.style.transition = "none";
+                    this.style.left = -index * banner.offsetWidth + "px";
+                };
+                PAGES(index);
+                setTimeout(() => {
+                    flag = true;
+                    clearInterval(TIMEID);
+                    MOVE();
+                }, 100);
+            })
+        };
+
+        function PAGES(index) {
+            var pages = document.querySelectorAll('.page>li');
+            for (var i = 0; i < pages.length; i++) {
+                pages[i].classList.remove("active");
+            }
+            pages[index - 1].classList.add("active");
+        };
+    </script>
+</body>
+
+</html>
